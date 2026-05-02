@@ -23,7 +23,6 @@ export function renderWizard(container, { tree, state, i18n }) {
       <span class="label wizard-step-label">${stepLabel}</span>
       <div class="wizard-progress" style="--progress: ${progress}%"></div>
       <h3 class="wizard-question">${i18n.pick(node.question)}</h3>
-      ${hint ? `<div class="wizard-hint">${escapeForRaw(hint)}</div>` : ''}
       <div class="wizard-options" role="group"></div>
       <div class="wizard-controls">
         <button class="wizard-back">${i18n.t('wizard.back')}</button>
@@ -31,6 +30,14 @@ export function renderWizard(container, { tree, state, i18n }) {
       </div>
     `;
     container.replaceChildren(frag);
+
+    // Hint'i, html template'inin otomatik escape'ine takılmadan DOM API ile ekle.
+    if (hint) {
+      const hintEl = document.createElement('div');
+      hintEl.className = 'wizard-hint';
+      hintEl.textContent = hint;
+      container.querySelector('.wizard-question').after(hintEl);
+    }
 
     const optsHost = container.querySelector('.wizard-options');
     node.options.forEach(opt => {
@@ -49,10 +56,6 @@ export function renderWizard(container, { tree, state, i18n }) {
     reset.disabled = path.length === 1;
     back.addEventListener('click', () => state.back());
     reset.addEventListener('click', () => state.reset());
-  }
-
-  function escapeForRaw(s) {
-    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
   state.subscribe(render);
