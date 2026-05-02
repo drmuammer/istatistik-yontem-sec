@@ -8,7 +8,12 @@
   margin-bottom: var(--space-3);
   flex-wrap: wrap;
 }
-.tree-toolbar .label { display: block; margin: 0; }
+.tree-toolbar .label {
+  display: block;
+  margin: 0;
+  text-align: left;
+  flex: 1 1 auto;
+}
 
 .tree-recenter {
   font-family: var(--sans);
