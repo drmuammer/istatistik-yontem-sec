@@ -46,8 +46,15 @@
 }
 .result-restart-bottom:hover { background: var(--surface); color: var(--ink); }
 
-.result-name { font-size: 36px; line-height: 1.1; word-wrap: break-word; }
-.result-summary { font-size: 18px; color: var(--ink-soft); }
+/* Uzun test isimleri için sigorta — hem normal whitespace wrap, hem son çare olarak kelime ortasından kırma */
+.result-name {
+  font-size: 36px;
+  line-height: 1.1;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.result-summary { font-size: 18px; color: var(--ink-soft); overflow-wrap: anywhere; }
 
 .result-grid {
   display: grid;
@@ -57,14 +64,12 @@
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
 }
-@media (max-width: 700px) {
-  .result-grid { grid-template-columns: minmax(0, 1fr); }
-}
 .result-grid h4 { font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-mute); }
 .result-grid ul { padding-left: var(--space-4); margin: 0; }
-.result-grid li { margin-bottom: var(--space-1); }
+.result-grid li { margin-bottom: var(--space-1); overflow-wrap: anywhere; }
+.result-grid p { overflow-wrap: anywhere; }
 
-.result-example { background: var(--accent-soft); padding: var(--space-4) var(--space-6); border-left: 3px solid var(--accent); font-style: italic; word-wrap: break-word; }
+.result-example { background: var(--accent-soft); padding: var(--space-4) var(--space-6); border-left: 3px solid var(--accent); font-style: italic; word-wrap: break-word; overflow-wrap: anywhere; }
 
 /* Demo container — geniş D3 SVG'leri taşımasın diye yatay scroll kendi içinde */
 .result-demo { border: 1px solid var(--rule); padding: var(--space-4); border-radius: 2px; min-width: 0; max-width: 100%; overflow-x: auto; }
@@ -92,6 +97,25 @@
   margin: 0;
 }
 
-.result-path { font-size: 13px; color: var(--ink-soft); border-left: 2px solid var(--rule); padding-left: var(--space-4); min-width: 0; }
+.result-path { font-size: 13px; color: var(--ink-soft); border-left: 2px solid var(--rule); padding-left: var(--space-4); min-width: 0; overflow-wrap: anywhere; }
 .result-path ol { padding-left: var(--space-4); }
-.result-references { font-size: 12px; color: var(--ink-mute); }
+.result-references { font-size: 12px; color: var(--ink-mute); overflow-wrap: anywhere; }
+
+/* ============================================================
+   Mobile / Tablet uyumu
+   ============================================================ */
+@media (max-width: 700px) {
+  .result-grid { grid-template-columns: minmax(0, 1fr); }
+  .result-name { font-size: 26px; line-height: 1.15; }
+  .result-summary { font-size: 16px; }
+  .result-header { gap: var(--space-3); }
+  .result-restart { font-size: 10px; padding: 8px 12px; letter-spacing: 1px; }
+  .result-restart > span { font-size: 12px; }
+  .result-restart-bottom { font-size: 12px; padding: 12px 20px; }
+  .result-example { padding: var(--space-3) var(--space-4); }
+  .result-code-block { font-size: 12px; padding: var(--space-3); }
+}
+
+@media (max-width: 420px) {
+  .result-name { font-size: 22px; }
+}
