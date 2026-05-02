@@ -1,0 +1,20 @@
+.tree-pane { padding: var(--space-6); border-left: 1px solid var(--rule); position: relative; overflow-x: auto; }
+.tree-pane .label { display: block; margin-bottom: var(--space-3); text-align: center; }
+.tree-svg { display: block; margin: 0 auto; height: auto; max-height: none; }
+
+.tree-node rect { fill: var(--surface); stroke: var(--rule); stroke-width: 1; transition: fill 0.2s ease, stroke 0.2s ease; }
+.tree-node text { font-family: var(--serif); font-size: 12px; fill: var(--ink-soft); pointer-events: none; user-select: none; }
+.tree-node.leaf rect { fill: var(--accent-soft); stroke: var(--accent); }
+.tree-node.leaf text { fill: var(--accent); font-weight: bold; }
+.tree-node.active rect { fill: var(--ink); stroke: var(--ink); }
+.tree-node.active text { fill: var(--surface); }
+.tree-node.active.leaf rect { fill: var(--accent); stroke: var(--accent); }
+.tree-node.active.leaf text { fill: var(--surface); }
+.tree-node.dim rect { opacity: 0.35; }
+.tree-node.dim text { opacity: 0.5; }
+.tree-node.clickable { cursor: pointer; }
+.tree-node.clickable:hover rect { stroke: var(--ink); stroke-width: 2; }
+
+.tree-link { fill: none; stroke: var(--rule); stroke-width: 1; }
+.tree-link.active { stroke: var(--ink); stroke-width: 2; }
+.tree-link.dim { opacity: 0.35; }

@@ -1,0 +1,49 @@
+{
+  "site.title": { "tr": "İstatistiksel Yöntem Seçimi", "en": "Statistical Method Selection" },
+  "hero.title": {
+    "tr": "Tıbbi Araştırmalarda İstatistiksel Yöntem Seçimi",
+    "en": "Choosing a Statistical Method for Medical Research"
+  },
+  "hero.lead": {
+    "tr": "Veri tipinizi ve grup yapınızı yanıtlayın; size uygun istatistiksel testi gösterelim. Her testin nasıl çalıştığını interaktif demolarla keşfedin.",
+    "en": "Answer questions about your data and groups; we'll guide you to the right test. Explore how each test works with interactive demos."
+  },
+  "hero.cta": { "tr": "Başla", "en": "Start" },
+  "wizard.step": { "tr": "Adım {current} / {total}", "en": "Step {current} / {total}" },
+  "wizard.back": { "tr": "← Geri", "en": "← Back" },
+  "wizard.reset": { "tr": "Sıfırla", "en": "Reset" },
+  "tree.title": { "tr": "Karar haritası", "en": "Decision map" },
+  "tree.click_hint": { "tr": "Bir düğüme tıklayarak doğrudan o yola atlayın", "en": "Click a node to jump directly to that path" },
+  "tree.show_map": { "tr": "🗺  Haritayı göster", "en": "🗺  Show map" },
+  "tree.close_map": { "tr": "Haritayı kapat", "en": "Close map" },
+  "result.summary": { "tr": "Özet", "en": "Summary" },
+  "result.when_to_use": { "tr": "Ne zaman kullanılır", "en": "When to use" },
+  "result.assumptions": { "tr": "Varsayımlar", "en": "Assumptions" },
+  "result.example": { "tr": "Örnek senaryo", "en": "Example scenario" },
+  "result.demo": { "tr": "İnteraktif demo", "en": "Interactive demo" },
+  "result.code": { "tr": "Kod örnekleri", "en": "Code samples" },
+  "result.path": { "tr": "Bu testi seçtiniz çünkü:", "en": "You arrived at this test because:" },
+  "result.references": { "tr": "Kaynaklar", "en": "References" },
+  "result.reset_demo": { "tr": "Demoyu sıfırla", "en": "Reset demo" },
+  "footer.attribution": {
+    "tr": "İçerik, Dr. Cengizhan Açıkel ve Dr. Selim Kılıç tarafından hazırlanan \"Tıbbi Araştırmalarda İstatistiksel Yöntem Seçimi\" akış şemasından uyarlanmıştır.",
+    "en": "Adapted from \"Statistical Method Selection in Medical Research\" by Dr. Cengizhan Açıkel and Dr. Selim Kılıç."
+  },
+  "footer.disclaimer": {
+    "tr": "Bu sayfa öğretici bir araçtır; klinik karar için profesyonel görüş alın.",
+    "en": "This is an educational tool; consult a professional for clinical decisions."
+  },
+  "footer.license": { "tr": "CC BY 4.0 lisansıyla yayınlanmıştır.", "en": "Released under the CC BY 4.0 license." },
+  "sources.0": {
+    "tr": "Sümbüloğlu K., Sümbüloğlu V.; Biyoistatistik 4. Baskı, Özdemir Yayıncılık, Ankara, 1993.",
+    "en": "Sümbüloğlu K., Sümbüloğlu V.; Biyoistatistik 4th ed., Özdemir Publishing, Ankara, 1993."
+  },
+  "sources.1": {
+    "tr": "Akgül A.; Tıbbi Araştırmalarda İstatistiksel Analiz Teknikleri 2. Baskı, Emek Ofset, Ankara, 2003.",
+    "en": "Akgül A.; Statistical Analysis Techniques in Medical Research 2nd ed., Emek Ofset, Ankara, 2003."
+  },
+  "sources.2": {
+    "tr": "Dawson B., Trapp R.; Basic and Clinical Biostatistics, 3rd edition, Singapore, 2001.",
+    "en": "Dawson B., Trapp R.; Basic and Clinical Biostatistics, 3rd edition, Singapore, 2001."
+  }
+}

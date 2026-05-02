@@ -1,0 +1,148 @@
+{
+  "root": {
+    "id": "root",
+    "question": { "tr": "Verilerinizle ne yapmak istiyorsunuz?", "en": "What would you like to do with your data?" },
+    "options": [
+      { "label": { "tr": "Araştırma grubunu tanımla", "en": "Describe a sample" }, "next": "describe" },
+      { "label": { "tr": "Grupları karşılaştır", "en": "Compare groups" }, "next": "compare" },
+      { "label": { "tr": "Değişkenler arası ilişki ara", "en": "Examine relationships" }, "next": "relate" }
+    ]
+  },
+  "describe": {
+    "id": "describe",
+    "question": { "tr": "Hangi tip verilerle çalışıyorsunuz?", "en": "What type of data?" },
+    "hint": {
+      "tr": "Sürekli: ondalık olabilen sayısal ölçümler. Kesikli: sayılabilen kategoriler.",
+      "en": "Continuous: numeric. Discrete: categorical/countable."
+    },
+    "options": [
+      { "label": { "tr": "Kesikli", "en": "Discrete" }, "next": "describe_discrete" },
+      { "label": { "tr": "Sürekli", "en": "Continuous" }, "next": "describe_continuous" }
+    ]
+  },
+  "describe_discrete": { "id": "describe_discrete", "leaf": true, "test_id": "describe_discrete" },
+  "describe_continuous": { "id": "describe_continuous", "leaf": true, "test_id": "describe_continuous" },
+
+  "compare": {
+    "id": "compare",
+    "question": { "tr": "Hangi tip verilerle çalışıyorsunuz?", "en": "What type of data?" },
+    "options": [
+      { "label": { "tr": "Kesikli", "en": "Discrete" }, "next": "compare_discrete" },
+      { "label": { "tr": "Sürekli", "en": "Continuous" }, "next": "compare_continuous" }
+    ]
+  },
+  "compare_discrete": {
+    "id": "compare_discrete",
+    "question": { "tr": "Karşılaştırılan gruplar nasıl?", "en": "How are the groups related?" },
+    "hint": {
+      "tr": "Aynı kişilerden tekrarlayan ölçüm = bağımlı. Farklı kişiler/gruplar = bağımsız.",
+      "en": "Repeated measures on same subjects = paired. Different subjects = independent."
+    },
+    "options": [
+      { "label": { "tr": "Bağımlı (iki ölçüm)", "en": "Paired (two measurements)" }, "next": "discrete_paired" },
+      { "label": { "tr": "Bağımsız", "en": "Independent" }, "next": "discrete_independent" }
+    ]
+  },
+  "discrete_paired": { "id": "discrete_paired", "leaf": true, "test_id": "mcnemar" },
+  "discrete_independent": {
+    "id": "discrete_independent",
+    "question": { "tr": "Karşılaştırılan grup sayısı?", "en": "Number of groups?" },
+    "options": [
+      { "label": { "tr": "İki", "en": "Two" }, "next": "discrete_indep_two" },
+      { "label": { "tr": "Üç ve fazla", "en": "Three or more" }, "next": "discrete_indep_many" }
+    ]
+  },
+  "discrete_indep_two": { "id": "discrete_indep_two", "leaf": true, "test_id": "chisquare_2x2" },
+  "discrete_indep_many": { "id": "discrete_indep_many", "leaf": true, "test_id": "chisquare_nxm" },
+
+  "compare_continuous": {
+    "id": "compare_continuous",
+    "question": { "tr": "Karşılaştırılan gruplar nasıl?", "en": "How are the groups related?" },
+    "options": [
+      { "label": { "tr": "Bağımlı (eşli)", "en": "Paired" }, "next": "continuous_paired" },
+      { "label": { "tr": "Bağımsız", "en": "Independent" }, "next": "continuous_independent" }
+    ]
+  },
+  "continuous_paired": {
+    "id": "continuous_paired",
+    "question": { "tr": "Kaç ölçüm karşılaştırılıyor?", "en": "How many measurements?" },
+    "options": [
+      { "label": { "tr": "İki", "en": "Two" }, "next": "paired_two_normal" },
+      { "label": { "tr": "Üç ve fazla", "en": "Three or more" }, "next": "paired_many_normal" }
+    ]
+  },
+  "paired_two_normal": {
+    "id": "paired_two_normal",
+    "question": { "tr": "Veriniz normal dağılıyor mu?", "en": "Is the data normally distributed?" },
+    "hint": {
+      "tr": "Shapiro-Wilk testi veya Q-Q plot ile kontrol edin.",
+      "en": "Check with Shapiro-Wilk test or Q-Q plot."
+    },
+    "options": [
+      { "label": { "tr": "Evet", "en": "Yes" }, "next": "paired_two_yes" },
+      { "label": { "tr": "Hayır", "en": "No" }, "next": "paired_two_no" }
+    ]
+  },
+  "paired_two_yes": { "id": "paired_two_yes", "leaf": true, "test_id": "paired_t" },
+  "paired_two_no": { "id": "paired_two_no", "leaf": true, "test_id": "wilcoxon_signtest" },
+
+  "paired_many_normal": {
+    "id": "paired_many_normal",
+    "question": { "tr": "Veriniz normal dağılıyor mu?", "en": "Is the data normally distributed?" },
+    "options": [
+      { "label": { "tr": "Evet", "en": "Yes" }, "next": "paired_many_yes" },
+      { "label": { "tr": "Hayır", "en": "No" }, "next": "paired_many_no" }
+    ]
+  },
+  "paired_many_yes": { "id": "paired_many_yes", "leaf": true, "test_id": "repeated_anova" },
+  "paired_many_no": { "id": "paired_many_no", "leaf": true, "test_id": "friedman" },
+
+  "continuous_independent": {
+    "id": "continuous_independent",
+    "question": { "tr": "Karşılaştırılan grup sayısı?", "en": "Number of groups?" },
+    "options": [
+      { "label": { "tr": "İki", "en": "Two" }, "next": "indep_two_normal" },
+      { "label": { "tr": "Üç ve fazla", "en": "Three or more" }, "next": "indep_many_normal" }
+    ]
+  },
+  "indep_two_normal": {
+    "id": "indep_two_normal",
+    "question": { "tr": "Veriniz normal dağılıyor mu?", "en": "Is the data normally distributed?" },
+    "options": [
+      { "label": { "tr": "Evet", "en": "Yes" }, "next": "indep_two_yes" },
+      { "label": { "tr": "Hayır", "en": "No" }, "next": "indep_two_no" }
+    ]
+  },
+  "indep_two_yes": { "id": "indep_two_yes", "leaf": true, "test_id": "student_t" },
+  "indep_two_no": { "id": "indep_two_no", "leaf": true, "test_id": "mann_whitney" },
+  "indep_many_normal": {
+    "id": "indep_many_normal",
+    "question": { "tr": "Veriniz normal dağılıyor mu?", "en": "Is the data normally distributed?" },
+    "options": [
+      { "label": { "tr": "Evet", "en": "Yes" }, "next": "indep_many_yes" },
+      { "label": { "tr": "Hayır", "en": "No" }, "next": "indep_many_no" }
+    ]
+  },
+  "indep_many_yes": { "id": "indep_many_yes", "leaf": true, "test_id": "anova" },
+  "indep_many_no": { "id": "indep_many_no", "leaf": true, "test_id": "kruskal_wallis" },
+
+  "relate": {
+    "id": "relate",
+    "question": { "tr": "Hangi tip verilerle çalışıyorsunuz?", "en": "What type of data?" },
+    "options": [
+      { "label": { "tr": "Sınıflamalı kesikli", "en": "Categorical / ordinal" }, "next": "relate_categorical" },
+      { "label": { "tr": "Sürekli", "en": "Continuous" }, "next": "relate_continuous" }
+    ]
+  },
+  "relate_categorical": { "id": "relate_categorical", "leaf": true, "test_id": "kendall_spearman" },
+  "relate_continuous": {
+    "id": "relate_continuous",
+    "question": { "tr": "Kaç değişken inceleniyor?", "en": "How many variables?" },
+    "options": [
+      { "label": { "tr": "İki değişkenin birlikte değişimi", "en": "Two variables, mutual change" }, "next": "relate_two" },
+      { "label": { "tr": "Bir bağımlı, birden çok bağımsız", "en": "One dependent, several independent" }, "next": "relate_regression" }
+    ]
+  },
+  "relate_two": { "id": "relate_two", "leaf": true, "test_id": "pearson" },
+  "relate_regression": { "id": "relate_regression", "leaf": true, "test_id": "regression" }
+}
