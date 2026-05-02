@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Wizard Debug</title>
+<style>body{font-family:monospace;padding:2em}#log{white-space:pre-wrap;background:#f5f5f4;padding:1em}.ok{color:#15803d}.fail{color:#b91c1c}</style>
+<link rel="stylesheet" href="../styles/main.css">
+<link rel="stylesheet" href="../styles/wizard.css">
+</head><body>
+<h1>Wizard Debug</h1>
+<div id="log">Yükleniyor...</div>
+<h2>Render hedefi</h2>
+<div id="wizard" style="border:2px dashed #b45309;min-height:200px"></div>
+<script src="../lib/d3.v7.min.js"></script>
+<script type="module">
+const log = document.getElementById('log');
+function add(msg, ok = null) {
+  const div = document.createElement('div');
+  div.className = ok === true ? 'ok' : ok === false ? 'fail' : '';
+  div.textContent = (ok === true ? '[OK] ' : ok === false ? '[FAIL] ' : '') + msg;
+  log.append(div);
+}
+log.replaceChildren();
+
+window.addEventListener('error', e => add(`global error: ${e.message} @ ${e.filename}:${e.lineno}`, false));
+window.addEventListener('unhandledrejection', e => add(`unhandled rejection: ${e.reason}`, false));
+
+try {
+  add('1. tree.json yükleniyor...');
+  const tree = await fetch('../data/tree.json').then(r => r.json());
+  add(`tree.json OK: ${Object.keys(tree).length} node`, true);
+
+  add('2. strings.json yükleniyor...');
+  const strings = await fetch('../data/strings.json').then(r => r.json());
+  add(`strings.json OK: ${Object.keys(strings).length} key`, true);
+
+  add('3. createState import...');
+  const { createState } = await import('../js/state.js');
+  const state = createState(tree);
+  add(`state OK: path=${JSON.stringify(state.getPath())}`, true);
+
+  add('4. createI18n import...');
+  const { createI18n } = await import('../js/i18n.js');
+  const i18n = createI18n(strings);
+  add(`i18n OK: lang=${i18n.getLang()}, step="${i18n.t('wizard.step',{current:1,total:6})}"`, true);
+
+  add('5. dom.js import...');
+  const { html } = await import('../js/dom.js');
+  const f = html`<p>test ${42}</p>`;
+  add(`dom.js html() OK: fragment childNodes=${f.childNodes.length}`, true);
+
+  add('6. wizard.js import...');
+  const { renderWizard } = await import('../js/wizard.js');
+  add('wizard.js loaded', true);
+
+  add('7. renderWizard çağırılıyor...');
+  const target = document.getElementById('wizard');
+  renderWizard(target, { tree, state, i18n });
+  add(`wizard div'in çocuk sayısı: ${target.childNodes.length}`, target.childNodes.length > 0);
+  add(`question text: "${target.querySelector('.wizard-question')?.textContent || 'YOK'}"`,
+      Boolean(target.querySelector('.wizard-question')));
+  add(`button sayısı: ${target.querySelectorAll('.wizard-option').length}`,
+      target.querySelectorAll('.wizard-option').length === 3);
+} catch (e) {
+  add(`HATA: ${e.message}`, false);
+  add(e.stack || '(no stack)', false);
+}
+</script></body></html>

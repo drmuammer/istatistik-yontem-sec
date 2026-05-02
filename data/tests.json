@@ -1,0 +1,638 @@
+{
+  "student_t": {
+    "name": { "tr": "Student t testi", "en": "Student's t-test" },
+    "summary": {
+      "tr": "Bağımsız iki grubun ortalamalarını karşılaştırmak için kullanılan parametrik test.",
+      "en": "Parametric test that compares the means of two independent groups."
+    },
+    "when_to_use": {
+      "tr": "İki bağımsız grubun ortalamaları arasındaki farkın istatistiksel anlamlılığını araştırırken; veri sürekli ve normal dağılıyorsa.",
+      "en": "When investigating whether the means of two independent groups differ significantly; data must be continuous and normally distributed."
+    },
+    "assumptions": {
+      "tr": [
+        "Veri sürekli, aralık/oran ölçek seviyesinde",
+        "Gruplar bağımsız",
+        "Her grupta normal dağılım",
+        "Varyans homojenliği (Levene testi)"
+      ],
+      "en": [
+        "Continuous data, interval or ratio scale",
+        "Independent groups",
+        "Normality within each group",
+        "Homogeneity of variances (Levene's test)"
+      ]
+    },
+    "example": {
+      "tr": "Hipertansif hastalarda iki farklı antihipertansif ilacın sistolik kan basıncı düşürme etkisi karşılaştırılıyor. 30 hasta İlaç A, 30 hasta İlaç B alıyor. Tedaviden 4 hafta sonra sistolik basınçların ortalamaları arasındaki fark Student t testi ile değerlendirilir.",
+      "en": "Comparing systolic blood pressure reduction of two antihypertensive drugs. 30 patients receive Drug A, 30 receive Drug B. After 4 weeks, the mean difference is assessed with Student's t-test."
+    },
+    "code": {
+      "r": "# group1, group2: numeric vectors\nt.test(group1, group2, var.equal = TRUE)",
+      "python": "from scipy import stats\nstats.ttest_ind(group1, group2, equal_var=True)",
+      "spss": "T-TEST GROUPS = grup (1 2)\n  /MISSING = ANALYSIS\n  /VARIABLES = sistolik_bp."
+    },
+    "viz_module": "ttest",
+    "references": [
+      "Sümbüloğlu (1993), Bölüm 8",
+      "Dawson & Trapp (2001), ch. 6"
+    ]
+  },
+
+  "mann_whitney": {
+    "name": { "tr": "Mann-Whitney U testi", "en": "Mann-Whitney U test" },
+    "summary": {
+      "tr": "Bağımsız iki grubun merkezi eğilimlerini karşılaştıran, normal dağılım gerektirmeyen non-parametrik test.",
+      "en": "Non-parametric test comparing the central tendency of two independent groups without requiring normality."
+    },
+    "when_to_use": {
+      "tr": "İki bağımsız grup arasındaki farkı araştırırken, veri normal dağılmıyorsa veya sıralı ölçek düzeyindeyse. Student t testinin non-parametrik alternatifidir.",
+      "en": "When comparing two independent groups and the data are not normally distributed or are on an ordinal scale. It is the non-parametric alternative to Student's t-test."
+    },
+    "assumptions": {
+      "tr": [
+        "Veri en az sıralı ölçek düzeyinde veya sürekli",
+        "Gruplar birbirinden bağımsız",
+        "Dağılımın şekli iki grupta benzer (medyan karşılaştırması için)",
+        "Normal dağılım şartı aranmaz"
+      ],
+      "en": [
+        "Data on at least an ordinal scale or continuous",
+        "Groups are independent of each other",
+        "Similar distribution shape in both groups (for median comparison)",
+        "Normality is not required"
+      ]
+    },
+    "example": {
+      "tr": "Tip 2 diyabet hastalarında iki farklı insülin rejiminin açlık kan şekeri üzerine etkisi araştırılıyor. 25 hasta bazal insülin, 25 hasta karışık insülin kullanıyor; ancak açlık glikoz değerleri çarpık dağılım gösterdiğinden Mann-Whitney U testi tercih ediliyor.",
+      "en": "The effect of two insulin regimens on fasting blood glucose is studied in type 2 diabetes patients. 25 patients use basal insulin and 25 use mixed insulin; fasting glucose values show skewed distribution, so the Mann-Whitney U test is preferred."
+    },
+    "code": {
+      "r": "# group1, group2: numeric vectors\nwilcox.test(group1, group2, exact = FALSE)",
+      "python": "from scipy import stats\nstats.mannwhitneyu(group1, group2, alternative='two-sided')",
+      "spss": "NPAR TESTS\n  /M-W = glikoz BY grup (1 2)."
+    },
+    "viz_module": "mannwhitney",
+    "references": [
+      "Akgül (2003), Bölüm 12",
+      "Dawson & Trapp (2001), ch. 8"
+    ]
+  },
+
+  "anova": {
+    "name": { "tr": "Tek yönlü ANOVA", "en": "One-way ANOVA" },
+    "summary": {
+      "tr": "Üç veya daha fazla bağımsız grubun ortalamalarını tek bir faktöre göre karşılaştıran parametrik test.",
+      "en": "Parametric test comparing the means of three or more independent groups based on a single factor."
+    },
+    "when_to_use": {
+      "tr": "Üç ya da daha fazla bağımsız grubun ortalamaları arasında anlamlı fark olup olmadığını araştırırken; veri sürekli, normal dağılımlı ve grup varyansları eşit olduğunda.",
+      "en": "When examining whether three or more independent groups differ in their means; data should be continuous, normally distributed, and group variances should be equal."
+    },
+    "assumptions": {
+      "tr": [
+        "Veri sürekli, aralık/oran ölçek düzeyinde",
+        "Gruplar bağımsız",
+        "Her grupta normal dağılım",
+        "Varyans homojenliği (Levene veya Bartlett testi)",
+        "Gruplar içinde gözlemler bağımsız"
+      ],
+      "en": [
+        "Continuous data, interval or ratio scale",
+        "Independent groups",
+        "Normality within each group",
+        "Homogeneity of variances (Levene's or Bartlett's test)",
+        "Observations are independent within groups"
+      ]
+    },
+    "example": {
+      "tr": "Bir onkoloji çalışmasında üç farklı kemoterapi protokolünün hemoglobin düzeyi üzerine etkisi karşılaştırılıyor. 20'şer hastadan oluşan A, B ve C gruplarında tedavi sonrası hemoglobin ortalamaları tek yönlü ANOVA ile değerlendiriliyor; anlamlı fark bulunursa Tukey post-hoc testi uygulanıyor.",
+      "en": "An oncology study compares the effect of three chemotherapy protocols on hemoglobin levels. Groups A, B, and C each contain 20 patients; post-treatment hemoglobin means are evaluated with one-way ANOVA, followed by Tukey post-hoc testing if a significant difference is found."
+    },
+    "code": {
+      "r": "# df: data frame with columns 'hemoglobin' and 'grup'\nfit <- aov(hemoglobin ~ grup, data = df)\nsummary(fit)\nTukeyHSD(fit)  # post-hoc",
+      "python": "from scipy import stats\nstats.f_oneway(grupA, grupB, grupC)\n\n# Post-hoc (Tukey)\nfrom statsmodels.stats.multicomp import pairwise_tukeyhsd\npairwise_tukeyhsd(df['hemoglobin'], df['grup'])",
+      "spss": "ONEWAY hemoglobin BY grup\n  /STATISTICS DESCRIPTIVES HOMOGENEITY\n  /POSTHOC = TUKEY ALPHA(0.05)."
+    },
+    "viz_module": "anova",
+    "references": [
+      "Sümbüloğlu (1993), Bölüm 9",
+      "Akgül (2003), Bölüm 7",
+      "Dawson & Trapp (2001), ch. 7"
+    ]
+  },
+
+  "kruskal_wallis": {
+    "name": { "tr": "Kruskal-Wallis testi", "en": "Kruskal-Wallis test" },
+    "summary": {
+      "tr": "Üç veya daha fazla bağımsız grubun merkezi eğilimlerini karşılaştıran, normal dağılım gerektirmeyen non-parametrik test.",
+      "en": "Non-parametric test comparing the central tendency of three or more independent groups without requiring normality."
+    },
+    "when_to_use": {
+      "tr": "Üç ya da daha fazla bağımsız grubu karşılaştırırken veri normal dağılmıyorsa veya sıralı ölçek düzeyindeyse. Tek yönlü ANOVA'nın non-parametrik alternatifidir.",
+      "en": "When comparing three or more independent groups and data are not normally distributed or are ordinal. It is the non-parametric alternative to one-way ANOVA."
+    },
+    "assumptions": {
+      "tr": [
+        "Veri en az sıralı ölçek düzeyinde veya sürekli",
+        "Gruplar birbirinden bağımsız",
+        "Her grupta en az 5 gözlem önerilir",
+        "Normal dağılım şartı aranmaz"
+      ],
+      "en": [
+        "Data on at least an ordinal scale or continuous",
+        "Independent groups",
+        "At least 5 observations per group recommended",
+        "Normality is not required"
+      ]
+    },
+    "example": {
+      "tr": "Bir enfeksiyon hastalıkları çalışmasında antibiyotik A, B ve C ile tedavi edilen pnömoni hastalarında hastanede yatış süresi karşılaştırılıyor. Yatış süresi dağılımı çarpık olduğundan Kruskal-Wallis testi kullanılıyor; anlamlı sonuç için Dunn çoklu karşılaştırma testi uygulanıyor.",
+      "en": "A study on infectious disease compares hospital stay duration in pneumonia patients treated with antibiotics A, B, and C. Because the distribution of stay duration is skewed, the Kruskal-Wallis test is used; Dunn's multiple comparison test is applied if results are significant."
+    },
+    "code": {
+      "r": "# df: data frame with columns 'yatis_suresi' and 'tedavi'\nkruskal.test(yatis_suresi ~ tedavi, data = df)\n\n# Post-hoc (Dunn)\nlibrary(FSA)\ndunnTest(yatis_suresi ~ tedavi, data = df, method = 'bonferroni')",
+      "python": "from scipy import stats\nstats.kruskal(grupA, grupB, grupC)\n\n# Post-hoc (Dunn)\nfrom scikit_posthocs import posthoc_dunn\nposthoc_dunn(df, val_col='yatis_suresi', group_col='tedavi', p_adjust='bonferroni')",
+      "spss": "NPAR TESTS\n  /K-W = yatis_suresi BY tedavi (1 3)."
+    },
+    "viz_module": "kruskalwallis",
+    "references": [
+      "Akgül (2003), Bölüm 13",
+      "Dawson & Trapp (2001), ch. 8"
+    ]
+  },
+
+  "paired_t": {
+    "name": { "tr": "Bağımlı (eşli) t testi", "en": "Paired t-test" },
+    "summary": {
+      "tr": "Aynı bireylerden iki farklı koşulda alınan ölçümleri karşılaştıran parametrik test.",
+      "en": "Parametric test comparing two measurements taken from the same individuals under different conditions."
+    },
+    "when_to_use": {
+      "tr": "Aynı kişilerden tedavi öncesi ve sonrası gibi iki farklı zaman noktasında alınan ölçümleri karşılaştırırken; farklar normal dağılıyorsa.",
+      "en": "When comparing two measurements from the same subjects, such as pre- and post-treatment values; the differences between pairs should be normally distributed."
+    },
+    "assumptions": {
+      "tr": [
+        "Aynı bireylerden iki bağımlı ölçüm",
+        "Farkların normal dağılması (Shapiro-Wilk testi ile kontrol edilebilir)",
+        "Veri sürekli, aralık/oran ölçek düzeyinde",
+        "Ölçüm çiftleri birbirinden bağımsız"
+      ],
+      "en": [
+        "Two dependent measurements from the same individuals",
+        "Differences between pairs are normally distributed (can be checked with Shapiro-Wilk)",
+        "Continuous data, interval or ratio scale",
+        "Pairs are independent of each other"
+      ]
+    },
+    "example": {
+      "tr": "Cerrahi bir çalışmada laparoskopik kolesistektomi yapılan 40 hastada operasyon öncesi ve 24 saat sonrası VAS ağrı skorları karşılaştırılıyor. Farklar normal dağıldığından bağımlı t testi kullanılarak ağrı düzeyinin cerrahi sonrasında anlamlı biçimde değişip değişmediği araştırılıyor.",
+      "en": "A surgical study compares VAS pain scores before and 24 hours after laparoscopic cholecystectomy in 40 patients. Because the differences are normally distributed, the paired t-test is used to determine whether pain levels change significantly following surgery."
+    },
+    "code": {
+      "r": "# pre, post: matched numeric vectors\nt.test(pre, post, paired = TRUE)",
+      "python": "from scipy import stats\nstats.ttest_rel(pre, post)",
+      "spss": "T-TEST PAIRS = agri_pre WITH agri_post (PAIRED)\n  /MISSING = ANALYSIS."
+    },
+    "viz_module": "pairedt",
+    "references": [
+      "Sümbüloğlu (1993), Bölüm 8",
+      "Dawson & Trapp (2001), ch. 6"
+    ]
+  },
+
+  "wilcoxon_signtest": {
+    "name": { "tr": "Wilcoxon işaretli sıra testi / İşaret testi", "en": "Wilcoxon signed-rank test / Sign test" },
+    "summary": {
+      "tr": "Aynı bireylerden iki ölçüm arasındaki farkı değerlendiren non-parametrik testler; bağımlı t testinin alternatifidir.",
+      "en": "Non-parametric tests evaluating the difference between two paired measurements; alternatives to the paired t-test."
+    },
+    "when_to_use": {
+      "tr": "Eşli iki ölçüm karşılaştırılırken farklar normal dağılmıyorsa. Wilcoxon işaretli sıra testi farkların büyüklüğünü, işaret testi yalnızca yönü dikkate alır.",
+      "en": "When comparing two paired measurements and the differences are not normally distributed. The Wilcoxon signed-rank test considers the magnitude of differences; the sign test uses only direction."
+    },
+    "assumptions": {
+      "tr": [
+        "Aynı bireylerden iki bağımlı ölçüm",
+        "Veri en az sıralı veya sürekli",
+        "Farklar normal dağılmayabilir",
+        "Wilcoxon için farkların dağılımı simetriktir (işaret testi bu şartı gerektirmez)"
+      ],
+      "en": [
+        "Two dependent measurements from the same individuals",
+        "Data on at least an ordinal or continuous scale",
+        "Differences need not be normally distributed",
+        "For Wilcoxon, the distribution of differences should be symmetric (the sign test does not require this)"
+      ]
+    },
+    "example": {
+      "tr": "Romatoid artrit hastalarında 12 haftalık fizyoterapi programı öncesi ve sonrasında el kavrama kuvveti ölçülüyor. 35 hastadan elde edilen fark değerleri çarpık dağıldığından, bağımlı t testi yerine Wilcoxon işaretli sıra testi ile tedavi etkisi değerlendiriliyor.",
+      "en": "Hand grip strength is measured before and after a 12-week physiotherapy program in rheumatoid arthritis patients. Difference values from 35 patients show a skewed distribution, so the Wilcoxon signed-rank test is used instead of a paired t-test to assess treatment effect."
+    },
+    "code": {
+      "r": "# Wilcoxon işaretli sıra testi\nwilcox.test(pre, post, paired = TRUE)\n\n# İşaret testi\nlibrary(BSDA)\nSIGN.test(pre, post)",
+      "python": "from scipy import stats\n# Wilcoxon işaretli sıra testi\nstats.wilcoxon(pre, post)\n\n# İşaret testi\nfrom statsmodels.stats.descriptivestats import sign_test\nsign_test(pre - post)",
+      "spss": "NPAR TESTS\n  /WILCOXON = kavrama_pre WITH kavrama_post (PAIRED).\n\nNPAR TESTS\n  /SIGN = kavrama_pre WITH kavrama_post (PAIRED)."
+    },
+    "viz_module": "wilcoxon",
+    "references": [
+      "Akgül (2003), Bölüm 12",
+      "Sümbüloğlu (1993), Bölüm 10"
+    ]
+  },
+
+  "repeated_anova": {
+    "name": { "tr": "Tekrarlı ölçümlerde ANOVA", "en": "Repeated measures ANOVA" },
+    "summary": {
+      "tr": "Aynı bireylerden üç ya da daha fazla zaman noktasında alınan ölçümleri karşılaştıran parametrik test.",
+      "en": "Parametric test comparing measurements taken from the same individuals at three or more time points."
+    },
+    "when_to_use": {
+      "tr": "Aynı kişilerden birden fazla zaman noktasında alınan sürekli ölçümlerin zaman içindeki değişimini araştırırken; farklar normal dağılıyorsa ve küresellik (sphericity) varsayımı karşılanıyorsa.",
+      "en": "When investigating change over time in continuous measurements taken from the same individuals at multiple time points; differences should be normally distributed and the sphericity assumption should hold."
+    },
+    "assumptions": {
+      "tr": [
+        "Aynı bireylerden üç ya da daha fazla tekrarlı ölçüm",
+        "Veri sürekli, aralık/oran ölçek düzeyinde",
+        "Normal dağılım (farklar)",
+        "Küresellik (Mauchly testi; ihlalde Greenhouse-Geisser düzeltmesi)",
+        "Gözlemler arasında bağımsızlık"
+      ],
+      "en": [
+        "Three or more repeated measurements from the same individuals",
+        "Continuous data, interval or ratio scale",
+        "Normality of differences",
+        "Sphericity (Mauchly's test; Greenhouse-Geisser correction if violated)",
+        "Independence between subjects"
+      ]
+    },
+    "example": {
+      "tr": "Bir pediatri çalışmasında 6 aylık astım tedavisi uygulanan 30 çocukta FEV1 değerleri başlangıç, 2. ay ve 6. ayda ölçülüyor. Üç zaman noktasındaki ortalamalar arasındaki değişim tekrarlı ölçümlerde ANOVA ile inceleniyor.",
+      "en": "A pediatric study measures FEV1 values at baseline, month 2, and month 6 in 30 children undergoing a 6-month asthma treatment program. Changes across the three time points are examined with repeated measures ANOVA."
+    },
+    "code": {
+      "r": "# df: long-format data frame with columns 'fev1', 'zaman', 'hasta_id'\nlibrary(ez)\nezANOVA(data = df, dv = fev1, wid = hasta_id, within = zaman)",
+      "python": "import pingouin as pg\npg.rm_anova(data=df, dv='fev1', within='zaman', subject='hasta_id')",
+      "spss": "GLM fev1_t0 fev1_t2 fev1_t6\n  /WSFACTOR = zaman 3 Polynomial\n  /PRINT = DESCRIPTIVE\n  /WSDESIGN = zaman."
+    },
+    "viz_module": "repeatedanova",
+    "references": [
+      "Akgül (2003), Bölüm 9",
+      "Dawson & Trapp (2001), ch. 7"
+    ]
+  },
+
+  "friedman": {
+    "name": { "tr": "Friedman testi", "en": "Friedman test" },
+    "summary": {
+      "tr": "Aynı bireylerden üç ya da daha fazla tekrarlı ölçümü karşılaştıran non-parametrik test; tekrarlı ölçümlerde ANOVA'nın parametrik olmayan alternatifidir.",
+      "en": "Non-parametric test comparing three or more repeated measurements from the same individuals; the non-parametric alternative to repeated measures ANOVA."
+    },
+    "when_to_use": {
+      "tr": "Tekrarlı ölçümler normal dağılmıyorsa veya sıralı ölçek düzeyindeyse; aynı kişilerden üç ya da daha fazla ölçüm karşılaştırılacaksa.",
+      "en": "When repeated measurements are not normally distributed or are on an ordinal scale; when comparing three or more measurements from the same individuals."
+    },
+    "assumptions": {
+      "tr": [
+        "Aynı bireylerden üç ya da daha fazla tekrarlı ölçüm",
+        "Veri en az sıralı ölçek düzeyinde veya sürekli",
+        "Normal dağılım şartı aranmaz",
+        "Bireyler (bloklar) birbirinden bağımsız"
+      ],
+      "en": [
+        "Three or more repeated measurements from the same individuals",
+        "Data on at least an ordinal or continuous scale",
+        "Normality is not required",
+        "Individuals (blocks) are independent of each other"
+      ]
+    },
+    "example": {
+      "tr": "Kronik bel ağrısı olan 28 hastada üç farklı ağrı kesici ajan üç ayrı dönemde çapraz geçişli (cross-over) tasarımla test ediliyor. VAS ağrı skoru dağılımı normal olmadığından farklı dönemlerdeki ortanca skorlar Friedman testi ile karşılaştırılıyor.",
+      "en": "Three analgesic agents are tested in a crossover design across three periods in 28 patients with chronic low back pain. Because VAS pain score distributions are not normal, median scores across periods are compared using the Friedman test."
+    },
+    "code": {
+      "r": "# df: wide-format matrix or data frame; rows = subjects, cols = time points\nfriedman.test(as.matrix(df[, c('donem1', 'donem2', 'donem3')]))",
+      "python": "from scipy import stats\nstats.friedmanchisquare(donem1, donem2, donem3)",
+      "spss": "NPAR TESTS\n  /FRIEDMAN = agri_d1 agri_d2 agri_d3."
+    },
+    "viz_module": "friedman",
+    "references": [
+      "Akgül (2003), Bölüm 13",
+      "Sümbüloğlu (1993), Bölüm 10"
+    ]
+  },
+
+  "chisquare_2x2": {
+    "name": { "tr": "Ki-kare testi (2×2) / Fisher'ın kesin testi", "en": "Chi-square test (2×2) / Fisher's exact test" },
+    "summary": {
+      "tr": "İki kategorik değişken arasındaki ilişkiyi 2×2 kontenjans tablosunda değerlendiren test; beklenen hücre sıklığı 5'in altına düşünce Fisher'ın kesin testi tercih edilir.",
+      "en": "Test evaluating the association between two categorical variables in a 2×2 contingency table; Fisher's exact test is preferred when expected cell frequencies fall below 5."
+    },
+    "when_to_use": {
+      "tr": "İki ikili kategorik değişken arasındaki ilişkiyi araştırırken (örn. iki tedavi grubu × iyileşme var/yok). Beklenen frekans < 5 olan hücre varsa Fisher'ın kesin testi kullanılır.",
+      "en": "When examining the association between two binary categorical variables (e.g., two treatment groups × recovery yes/no). Fisher's exact test is used when any expected cell frequency is less than 5."
+    },
+    "assumptions": {
+      "tr": [
+        "İki kategorik değişken, her biri iki kategorili",
+        "Gözlemler bağımsız",
+        "Ki-kare için beklenen hücre frekansları ≥ 5; aksi halde Fisher kesin testi",
+        "Yeterli örneklem büyüklüğü"
+      ],
+      "en": [
+        "Two categorical variables, each with two categories",
+        "Observations are independent",
+        "For chi-square, expected cell frequencies ≥ 5; otherwise use Fisher's exact test",
+        "Adequate sample size"
+      ]
+    },
+    "example": {
+      "tr": "Akut miyokard enfarktüsü geçiren 80 hastada koroner anjiyoplasti ile medikal tedavi sonuçları karşılaştırılıyor. 30 günlük mortalite oranları (yaşadı/öldü) iki tedavi grubu arasında 2×2 ki-kare testi ile inceleniyor; bir gruptaki beklenen ölüm sayısı 5'in altında kaldığında Fisher'ın kesin testi uygulanıyor.",
+      "en": "Outcomes of coronary angioplasty versus medical therapy are compared in 80 acute myocardial infarction patients. Thirty-day mortality rates (survived/died) are examined between the two groups with a 2×2 chi-square test; Fisher's exact test is used when the expected death count in one group falls below 5."
+    },
+    "code": {
+      "r": "# tablo: 2x2 kontenjans tablosu\ntablo <- matrix(c(a, b, c, d), nrow = 2)\nchisq.test(tablo)\nfisher.test(tablo)  # beklenen frekans < 5 ise",
+      "python": "from scipy import stats\nimport numpy as np\ntablo = np.array([[a, b], [c, d]])\nstats.chi2_contingency(tablo)\nstats.fisher_exact(tablo)  # beklenen frekans < 5 ise",
+      "spss": "CROSSTABS\n  /TABLES = tedavi BY mortalite\n  /STATISTICS = CHISQ\n  /CELLS = COUNT EXPECTED."
+    },
+    "viz_module": "chisquare",
+    "references": [
+      "Sümbüloğlu (1993), Bölüm 6",
+      "Dawson & Trapp (2001), ch. 9"
+    ]
+  },
+
+  "chisquare_nxm": {
+    "name": { "tr": "Ki-kare testi (n×m)", "en": "Chi-square test (n×m)" },
+    "summary": {
+      "tr": "İkiden fazla kategori içeren iki kategorik değişken arasındaki ilişkiyi n×m kontenjans tablosunda değerlendiren test.",
+      "en": "Test evaluating the association between two categorical variables with more than two categories each in an n×m contingency table."
+    },
+    "when_to_use": {
+      "tr": "İki kategorik değişken arasındaki ilişkiyi araştırırken, değişkenlerden en az biri ikiden fazla kategoriye sahipse (örn. üç tedavi grubu × hastalık şiddeti: hafif/orta/ağır).",
+      "en": "When examining the association between two categorical variables where at least one has more than two categories (e.g., three treatment groups × disease severity: mild/moderate/severe)."
+    },
+    "assumptions": {
+      "tr": [
+        "İki kategorik değişken",
+        "Gözlemler bağımsız",
+        "Beklenen hücre frekanslarının en az %80'i ≥ 5 olmalı",
+        "Hiçbir hücrenin beklenen frekansı 1'in altında olmamalı",
+        "Yeterli örneklem büyüklüğü"
+      ],
+      "en": [
+        "Two categorical variables",
+        "Observations are independent",
+        "At least 80% of expected cell frequencies should be ≥ 5",
+        "No expected cell frequency should be less than 1",
+        "Adequate sample size"
+      ]
+    },
+    "example": {
+      "tr": "Bir dermatoloji polikliniğinde psoriazis, ekzama ve akne tanılı hastalar arasında tedavi yanıt düzeyi (tam yanıt / kısmi yanıt / yanıtsız) dağılımı karşılaştırılıyor. Üç tanı grubu ile üç yanıt kategorisinden oluşan 3×3 tablo ki-kare testi ile analiz ediliyor.",
+      "en": "The distribution of treatment response (complete / partial / none) is compared across patients diagnosed with psoriasis, eczema, and acne in a dermatology outpatient clinic. A 3×3 table comprising three diagnosis groups and three response categories is analyzed with the chi-square test."
+    },
+    "code": {
+      "r": "# df: data frame with columns 'tani' and 'yanit'\ntablo <- table(df$tani, df$yanit)\nchisq.test(tablo)",
+      "python": "from scipy import stats\nimport pandas as pd\ntablo = pd.crosstab(df['tani'], df['yanit'])\nstats.chi2_contingency(tablo.values)",
+      "spss": "CROSSTABS\n  /TABLES = tani BY yanit\n  /STATISTICS = CHISQ\n  /CELLS = COUNT EXPECTED ROW."
+    },
+    "viz_module": "chisquare",
+    "references": [
+      "Sümbüloğlu (1993), Bölüm 6",
+      "Akgül (2003), Bölüm 5"
+    ]
+  },
+
+  "mcnemar": {
+    "name": { "tr": "McNemar testi", "en": "McNemar test" },
+    "summary": {
+      "tr": "Eşli (bağımlı) iki ikili kategorik ölçümü karşılaştıran non-parametrik test; öncesi-sonrası ikili verilerde kullanılır.",
+      "en": "Non-parametric test comparing two paired binary categorical measurements; used for before-after binary data."
+    },
+    "when_to_use": {
+      "tr": "Aynı kişilerden iki farklı zaman noktasında (örn. tedavi öncesi ve sonrası) alınan ikili (evet/hayır, var/yok) kategorik ölçümler karşılaştırılacakken.",
+      "en": "When comparing binary (yes/no, present/absent) categorical measurements taken from the same individuals at two time points (e.g., before and after treatment)."
+    },
+    "assumptions": {
+      "tr": [
+        "Aynı bireylerden eşli iki ikili ölçüm",
+        "Değişken nominal düzeyde (iki kategori)",
+        "Gözlemler çiftler halinde bağımlı, çiftler kendi aralarında bağımsız",
+        "Uyuşmayan çift sayısı tercihen ≥ 10 (küçük örneklerde tam binom testi)"
+      ],
+      "en": [
+        "Two paired binary measurements from the same individuals",
+        "Variable at nominal level with two categories",
+        "Observations are dependent within pairs, independent between pairs",
+        "Number of discordant pairs preferably ≥ 10 (exact binomial test for small samples)"
+      ]
+    },
+    "example": {
+      "tr": "Bir aşı etkinlik çalışmasında 120 çocukta aşılama öncesi ve sonrasında grip enfeksiyonu varlığı (var/yok) araştırılıyor. Aynı çocuklara ait eşli ikili veriler McNemar testi ile karşılaştırılarak aşının koruyuculuğu değerlendiriliyor.",
+      "en": "In a vaccine efficacy study, the presence of influenza infection (yes/no) is assessed before and after vaccination in 120 children. Paired binary data from the same children are compared with McNemar's test to evaluate vaccine protection."
+    },
+    "code": {
+      "r": "# tablo: 2x2 eşli kontenjans tablosu\ntablo <- matrix(c(a, b, c, d), nrow = 2)\nmcnemar.test(tablo)",
+      "python": "from statsmodels.stats.contingency_tables import mcnemar\ntablo = [[a, b], [c, d]]\nresult = mcnemar(tablo, exact=False)\nprint(result.statistic, result.pvalue)",
+      "spss": "CROSSTABS\n  /TABLES = grip_oncesi BY grip_sonrasi\n  /STATISTICS = MCNEMAR\n  /CELLS = COUNT."
+    },
+    "viz_module": "mcnemar",
+    "references": [
+      "Akgül (2003), Bölüm 11",
+      "Dawson & Trapp (2001), ch. 9"
+    ]
+  },
+
+  "pearson": {
+    "name": { "tr": "Pearson korelasyon analizi", "en": "Pearson correlation analysis" },
+    "summary": {
+      "tr": "İki sürekli değişken arasındaki doğrusal ilişkinin yönünü ve gücünü ölçen parametrik analiz.",
+      "en": "Parametric analysis measuring the direction and strength of the linear relationship between two continuous variables."
+    },
+    "when_to_use": {
+      "tr": "İki sürekli değişken arasında doğrusal bir ilişki olup olmadığını ve bu ilişkinin gücünü araştırırken; her iki değişken de normal dağılımlıysa.",
+      "en": "When investigating whether a linear relationship exists between two continuous variables and measuring its strength; both variables should be normally distributed."
+    },
+    "assumptions": {
+      "tr": [
+        "Her iki değişken sürekli, aralık/oran ölçek düzeyinde",
+        "Her iki değişken normal dağılımlı (bivaryat normallik)",
+        "İlişki doğrusal (saçılım grafiğiyle kontrol edilebilir)",
+        "Aykırı değer bulunmamalı veya dikkate alınmalı"
+      ],
+      "en": [
+        "Both variables continuous, interval or ratio scale",
+        "Both variables normally distributed (bivariate normality)",
+        "Relationship is linear (can be checked with a scatter plot)",
+        "No influential outliers, or they should be accounted for"
+      ]
+    },
+    "example": {
+      "tr": "Nefroloji kliniğinde 60 diyabetik nefropati hastasında HbA1c düzeyi ile 24 saatlik idrar protein atılımı arasındaki ilişki araştırılıyor. Her iki değişken de normal dağıldığından Pearson korelasyon katsayısı hesaplanarak ilişkinin yönü ve gücü belirleniyor.",
+      "en": "The relationship between HbA1c level and 24-hour urinary protein excretion is investigated in 60 diabetic nephropathy patients in a nephrology clinic. Because both variables are normally distributed, the Pearson correlation coefficient is calculated to determine the direction and strength of the association."
+    },
+    "code": {
+      "r": "# x, y: numeric vectors\ncor.test(x, y, method = 'pearson')",
+      "python": "from scipy import stats\nstats.pearsonr(x, y)",
+      "spss": "CORRELATIONS\n  /VARIABLES = hba1c protein_atilim\n  /PRINT = TWOTAIL SIG\n  /MISSING = PAIRWISE."
+    },
+    "viz_module": "pearson",
+    "references": [
+      "Sümbüloğlu (1993), Bölüm 11",
+      "Dawson & Trapp (2001), ch. 10"
+    ]
+  },
+
+  "kendall_spearman": {
+    "name": { "tr": "Kendall tau-b ve Spearman korelasyonu", "en": "Kendall's tau-b and Spearman correlation" },
+    "summary": {
+      "tr": "Sıralı ya da sürekli ama normal dağılmayan değişkenler arasındaki ilişkiyi değerlendiren non-parametrik korelasyon yöntemleri.",
+      "en": "Non-parametric correlation methods for assessing the association between ordinal or non-normally distributed continuous variables."
+    },
+    "when_to_use": {
+      "tr": "İki sıralı değişken arasındaki ilişkiyi ya da normal dağılım varsayımı karşılanmadığında iki sürekli değişken arasındaki ilişkiyi araştırırken. Spearman rho örneklem > 30 için, Kendall tau-b küçük örnekler ve bağlı sıralar için önerilir.",
+      "en": "When examining the association between two ordinal variables or between two continuous variables that do not meet normality assumptions. Spearman rho is preferred for samples > 30, Kendall tau-b for small samples or tied ranks."
+    },
+    "assumptions": {
+      "tr": [
+        "Her iki değişken en az sıralı ölçek düzeyinde",
+        "Monoton ilişki (doğrusal olmak şart değil)",
+        "Gözlemler bağımsız",
+        "Normal dağılım şartı aranmaz"
+      ],
+      "en": [
+        "Both variables on at least an ordinal scale",
+        "Monotonic relationship (not required to be linear)",
+        "Observations are independent",
+        "Normality is not required"
+      ]
+    },
+    "example": {
+      "tr": "Bir psikiyatri çalışmasında 45 majör depresyon hastasında Beck Depresyon Ölçeği (sıralı) ile uyku kalitesi puanı (sıralı) arasındaki ilişki inceleniyor. Veriler ordinal düzeyde olduğundan Spearman korelasyon katsayısı hesaplanıyor; küçük alt gruplar için Kendall tau-b de raporlanıyor.",
+      "en": "A psychiatry study examines the association between Beck Depression Inventory scores (ordinal) and sleep quality scores (ordinal) in 45 major depression patients. Because data are ordinal, the Spearman correlation coefficient is calculated; Kendall's tau-b is also reported for smaller subgroups."
+    },
+    "code": {
+      "r": "# x, y: ordinal or non-normal numeric vectors\ncor.test(x, y, method = 'spearman')\ncor.test(x, y, method = 'kendall')",
+      "python": "from scipy import stats\nstats.spearmanr(x, y)\nstats.kendalltau(x, y)",
+      "spss": "NONPAR CORR\n  /VARIABLES = bdi uyku_skoru\n  /PRINT = SPEARMAN KENDALL TWOTAIL SIG\n  /MISSING = PAIRWISE."
+    },
+    "viz_module": "kendall",
+    "references": [
+      "Akgül (2003), Bölüm 14",
+      "Sümbüloğlu (1993), Bölüm 11"
+    ]
+  },
+
+  "regression": {
+    "name": { "tr": "Regresyon analizi", "en": "Regression analysis" },
+    "summary": {
+      "tr": "Bir bağımlı değişkeni bir veya birden fazla bağımsız değişken ile açıklamayı ve tahmin etmeyi amaçlayan analiz yöntemi.",
+      "en": "Analytical method aimed at explaining and predicting a dependent variable using one or more independent variables."
+    },
+    "when_to_use": {
+      "tr": "Bir bağımlı sürekli değişkeni açıklayan ya da tahmin eden bağımsız değişkenleri belirlemek, değişkenler arası ilişkinin büyüklüğünü ve yönünü ölçmek için. Çok değişkenli karıştırıcı faktör kontrolünde de kullanılır.",
+      "en": "When identifying independent variables that explain or predict a continuous dependent variable, and to measure the magnitude and direction of associations. Also used for multivariable control of confounders."
+    },
+    "assumptions": {
+      "tr": [
+        "Bağımlı değişken sürekli",
+        "Bağımsız-bağımlı değişken arasında doğrusal ilişki",
+        "Hata terimleri normal dağılımlı ve bağımsız",
+        "Sabit varyans (homoskedastisite)",
+        "Çoklu doğrusal bağlantı (multicollinearity) olmamalı"
+      ],
+      "en": [
+        "Dependent variable is continuous",
+        "Linear relationship between independent and dependent variables",
+        "Residuals are normally distributed and independent",
+        "Constant variance (homoscedasticity)",
+        "No multicollinearity among predictors"
+      ]
+    },
+    "example": {
+      "tr": "Bir kardiyoloji çalışmasında 150 hastada sistolik kan basıncı üzerine yaş, vücut kitle indeksi, günlük tuz tüketimi ve sigara içme durumunun etkisi çoklu doğrusal regresyon ile modelleniyor. Her bağımsız değişkenin sistolik basınca bağımsız katkısı beta katsayıları ve %95 güven aralıkları ile raporlanıyor.",
+      "en": "A cardiology study models the effect of age, body mass index, daily salt intake, and smoking status on systolic blood pressure in 150 patients using multiple linear regression. The independent contribution of each predictor is reported with beta coefficients and 95% confidence intervals."
+    },
+    "code": {
+      "r": "# df: data frame\nfit <- lm(sistolik_bp ~ yas + bki + tuz + sigara, data = df)\nsummary(fit)\nconfint(fit)",
+      "python": "import statsmodels.formula.api as smf\nfit = smf.ols('sistolik_bp ~ yas + bki + tuz + sigara', data=df).fit()\nprint(fit.summary())",
+      "spss": "REGRESSION\n  /DEPENDENT sistolik_bp\n  /METHOD = ENTER yas bki tuz sigara\n  /STATISTICS COEFF CI(95) R ANOVA."
+    },
+    "viz_module": "regression",
+    "references": [
+      "Akgül (2003), Bölüm 10",
+      "Dawson & Trapp (2001), ch. 10",
+      "Sümbüloğlu (1993), Bölüm 12"
+    ]
+  },
+
+  "describe_discrete": {
+    "name": { "tr": "Tablolar ve çubuk/pasta grafikler", "en": "Tables and bar/pie charts" },
+    "summary": {
+      "tr": "Kesikli (kategorik) verilerin dağılımını frekans ve yüzde tablolarıyla, çubuk ve pasta grafiklerle özetleyen tanımlayıcı yöntemler.",
+      "en": "Descriptive methods summarizing the distribution of discrete (categorical) data through frequency and percentage tables, and bar or pie charts."
+    },
+    "when_to_use": {
+      "tr": "Kategorik ya da sayılabilir (kesikli) değişkenlerin dağılımını tanımlamak ve görselleştirmek için; istatistiksel test yapılmaksızın grubun özelliklerini aktarmak amacıyla.",
+      "en": "When describing and visualizing the distribution of categorical or countable (discrete) variables; to communicate group characteristics without performing statistical tests."
+    },
+    "assumptions": {
+      "tr": [
+        "Değişken nominal veya ordinal ölçek düzeyinde",
+        "Her kategori için yeterli gözlem sayısı",
+        "Kategoriler birbirini dışlamalı ve kapsamlı olmalı"
+      ],
+      "en": [
+        "Variable is on a nominal or ordinal scale",
+        "Sufficient observations for each category",
+        "Categories should be mutually exclusive and exhaustive"
+      ]
+    },
+    "example": {
+      "tr": "Bir kardiyoloji polikliniğine başvuran 200 hastanın cinsiyet, sigara içme durumu ve Killip sınıflaması gibi kategorik değişkenleri frekans ve yüzde tablosu ile sunuluyor. Sigara içme alışkanlığı (%'ler) çubuk grafik ile görselleştiriliyor; Killip sınıf dağılımı pasta grafik ile gösteriliyor.",
+      "en": "Categorical variables such as sex, smoking status, and Killip class are presented using frequency and percentage tables for 200 patients visiting a cardiology outpatient clinic. Smoking habits (percentages) are visualized with a bar chart; the Killip class distribution is shown with a pie chart."
+    },
+    "viz_module": "describe",
+    "references": [
+      "Sümbüloğlu (1993), Bölüm 2",
+      "Dawson & Trapp (2001), ch. 2"
+    ]
+  },
+
+  "describe_continuous": {
+    "name": { "tr": "Tanımlayıcı istatistikler ve histogramlar", "en": "Descriptive statistics and histograms" },
+    "summary": {
+      "tr": "Sürekli değişkenlerin dağılımını ortalama, ortanca, standart sapma ve çeyrekler açıklığı gibi özet istatistiklerle ve histogramlarla betimleyen tanımlayıcı yöntemler.",
+      "en": "Descriptive methods summarizing the distribution of continuous variables using statistics such as mean, median, standard deviation, and interquartile range, along with histograms."
+    },
+    "when_to_use": {
+      "tr": "Sürekli bir değişkenin merkezi eğilimini, yayılımını ve dağılım şeklini tanımlamak için; istatistiksel test seçiminden önce normallik kontrolü amacıyla da kullanılır.",
+      "en": "When describing the central tendency, spread, and distributional shape of a continuous variable; also used before statistical testing to check for normality."
+    },
+    "assumptions": {
+      "tr": [
+        "Değişken sürekli, aralık veya oran ölçek düzeyinde",
+        "Yeterli örneklem büyüklüğü (histogram yorumu için genellikle n ≥ 30)",
+        "Aykırı değerler tanımlanmalı"
+      ],
+      "en": [
+        "Variable is continuous, on an interval or ratio scale",
+        "Sufficient sample size (typically n ≥ 30 for histogram interpretation)",
+        "Outliers should be identified"
+      ]
+    },
+    "example": {
+      "tr": "Bir beslenme araştırmasında 150 obez hastanın başvuru anındaki yaş, boy, kilo, VKİ ve açlık kan şekeri değerleri tanımlayıcı istatistiklerle özetleniyor. Değişkenlerin normal dağılıma uyumu histogram ve Q-Q grafikleriyle görsel olarak, Shapiro-Wilk testi ile sayısal olarak değerlendiriliyor.",
+      "en": "Age, height, weight, BMI, and fasting blood glucose values at admission are summarized with descriptive statistics for 150 obese patients in a nutrition study. Normality of each variable is assessed visually with histograms and Q-Q plots, and numerically with the Shapiro-Wilk test."
+    },
+    "viz_module": "describe",
+    "references": [
+      "Sümbüloğlu (1993), Bölüm 2",
+      "Akgül (2003), Bölüm 2",
+      "Dawson & Trapp (2001), ch. 3"
+    ]
+  }
+}

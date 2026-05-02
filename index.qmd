@@ -1,0 +1,41 @@
+---
+pagetitle: "İstatistiksel Yöntem Seçimi"
+description-meta: "Tıbbi araştırmalarda istatistiksel yöntem seçimi — interaktif rehber"
+---
+
+```{=html}
+<header class="site-header">
+  <h1 class="site-title" data-i18n="site.title">İstatistiksel Yöntem Seçimi</h1>
+  <nav class="site-nav">
+    <button id="lang-toggle" class="lang-toggle" aria-label="Dil değiştir">EN</button>
+    <a class="github-link" href="https://github.com/drmuammer/istatistik-yontem-secimi" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+  </nav>
+</header>
+
+<div class="page-content">
+  <section class="hero">
+    <div class="hero-bg" id="hero-bg" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h2 data-i18n="hero.title"></h2>
+      <p data-i18n="hero.lead"></p>
+      <button class="cta" data-action="start" data-i18n="hero.cta"></button>
+    </div>
+  </section>
+
+  <section class="explorer" id="explorer">
+    <div class="wizard-pane" id="wizard"></div>
+    <button id="show-map" class="show-map" type="button" aria-controls="tree" data-i18n="tree.show_map"></button>
+    <div class="tree-pane" id="tree"></div>
+  </section>
+  <button id="close-map" class="close-map" type="button" aria-label="Kapat">✕</button>
+
+  <section class="result" id="result" hidden></section>
+</div>
+
+<footer class="site-footer">
+  <p data-i18n="footer.attribution"></p>
+  <p data-i18n="footer.disclaimer"></p>
+  <p data-i18n="footer.license"></p>
+  <ul class="sources" id="footer-sources"></ul>
+</footer>
+```

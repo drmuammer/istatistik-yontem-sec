@@ -1,0 +1,49 @@
+/* ============================================================
+   Quarto Wrapper Override
+   ------------------------------------------------------------
+   Quarto, format: html altında varsayılan olarak <main>, .content,
+   .page-columns gibi sarmalayıcı elementler enjekte eder ve bunlara
+   max-width / padding / margin uygular. Bizim mevcut tasarımımız
+   tam genişlik kontrolünü .page-content içinde yönetiyor.
+   Bu dosya Quarto'nun varsayılan iç boşluklarını sıfırlar.
+   ============================================================ */
+
+/* page-layout: full ile zaten geniş geliyor; yine de garanti olsun. */
+#quarto-content,
+main.content,
+main#quarto-document-content,
+.page-columns {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  display: block !important;
+  grid-template-columns: none !important;
+}
+
+/* Quarto, body'nin altına bazen header sticky'si için padding-top ekler;
+   bizim site-header'ımız zaten sticky. */
+body > header.quarto-title-block,
+.quarto-title-banner,
+.quarto-title-meta,
+#title-block-header {
+  display: none !important;
+}
+
+/* Sayfa içeriğinin Quarto'nun container'ından dışarı doğru tam genişlik
+   alabilmesi için */
+.quarto-container,
+.column-page,
+.column-body,
+.column-screen,
+.column-screen-inset {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+}
+
+/* Quarto bazı temalarda body'e satır yüksekliği / font ezme verir; bizim
+   typography'mizi bozmaması için font-family'i orijinal CSS'in zaten
+   verdiği değerlere bırakıyoruz. Burada sadece resetliyoruz. */
+body {
+  padding: 0 !important;
+}

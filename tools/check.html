@@ -1,0 +1,36 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>İçerik Kontrol</title>
+<style>body{font-family:monospace;padding:2em;max-width:900px}
+.ok{color:#15803d}.fail{color:#b91c1c}
+table{border-collapse:collapse}td{padding:4px 12px;border-bottom:1px solid #eee}</style>
+</head><body>
+<h1>İçerik bütünlük kontrolü</h1>
+<table id="results"></table>
+<script type="module">
+const tree = await fetch('../data/tree.json').then(r => r.json());
+const tests = await fetch('../data/tests.json').then(r => r.json());
+const results = document.getElementById('results');
+function row(label, status, detail) {
+  const tr = document.createElement('tr');
+  const td1 = document.createElement('td'); td1.className = status; td1.textContent = status.toUpperCase();
+  const td2 = document.createElement('td'); td2.textContent = label;
+  const td3 = document.createElement('td'); td3.textContent = detail || '';
+  tr.append(td1, td2, td3); results.appendChild(tr);
+}
+
+const leaves = Object.values(tree).filter(n => n.leaf);
+row(`${leaves.length} leaf bulundu`, leaves.length === 16 ? 'ok' : 'fail', `Beklenen: 16`);
+
+const missing = leaves.filter(l => !tests[l.test_id]);
+row('Tüm leaf.test_id mevcut', missing.length === 0 ? 'ok' : 'fail', missing.map(l => l.test_id).join(', '));
+
+for (const [id, t] of Object.entries(tests)) {
+  const fields = ['name','summary','when_to_use','example'];
+  const eksik = [];
+  for (const f of fields) {
+    if (!t[f]?.tr) eksik.push(`${f}.tr`);
+    if (!t[f]?.en) eksik.push(`${f}.en`);
+  }
+  row(id, eksik.length ? 'fail' : 'ok', eksik.join(', '));
+}
+</script></body></html>

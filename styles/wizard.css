@@ -1,0 +1,27 @@
+.wizard-pane { padding: var(--space-6); }
+.wizard-step-label { display: block; margin-bottom: var(--space-3); }
+.wizard-question { font-size: 24px; font-weight: 400; margin-bottom: var(--space-4); }
+.wizard-hint {
+  font-style: italic; color: var(--ink-soft); font-size: 14px;
+  border-left: 2px solid var(--rule); padding-left: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.wizard-options { display: flex; flex-direction: column; gap: var(--space-2); }
+.wizard-option {
+  text-align: left; padding: 14px 18px; font-size: 15px;
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 2px;
+  transition: all 0.15s ease; font-family: inherit; cursor: pointer; color: var(--ink);
+}
+.wizard-option:hover { border-color: var(--ink); }
+.wizard-option .opt-label { display: block; }
+.wizard-option .opt-hint { display: block; margin-top: 4px; font-size: 12px; color: var(--ink-mute); font-family: var(--sans); }
+.wizard-controls {
+  display: flex; gap: var(--space-2); margin-top: var(--space-6);
+  padding-top: var(--space-4); border-top: 1px solid var(--rule);
+}
+.wizard-controls button { font-size: 13px; padding: 8px 14px; }
+.wizard-progress { height: 2px; background: var(--rule); margin-bottom: var(--space-6); position: relative; }
+.wizard-progress::after {
+  content: ''; position: absolute; left: 0; top: 0; height: 100%;
+  background: var(--ink); transition: width 0.3s ease; width: var(--progress, 0%);
+}

@@ -1,0 +1,40 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - "js/**"
+    - "styles/**"
+    - "data/**"
+    - "lib/**"
+    - ".nojekyll"
+
+website:
+  title: "İstatistiksel Yöntem Seçimi"
+  description: "Tıbbi araştırmalarda istatistiksel yöntem seçimi — interaktif rehber"
+  search: false
+  page-navigation: false
+  back-to-top-navigation: false
+  reader-mode: false
+  open-graph: true
+  twitter-card: false
+
+format:
+  html:
+    # Mevcut tasarım kendi stilini taşıyor; tema renkleri/typography çakışmasın diye sade tutuyoruz.
+    theme: cosmo
+    css:
+      - styles/main.css
+      - styles/wizard.css
+      - styles/tree.css
+      - styles/result.css
+      - styles/quarto-overrides.css
+    # Tam genişlik — ağaç ve sihirbaz pane'leri kendi max-width'ini kendisi yönetir.
+    page-layout: full
+    toc: false
+    anchor-sections: false
+    title-block-style: none
+    section-divs: false
+    smooth-scroll: true
+    lang: tr
+    include-after-body:
+      - _includes/scripts.html
