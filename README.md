@@ -1,90 +1,97 @@
-# İstatistiksel Yöntem Seçimi
+# 📊 İstatistiksel Yöntem Seçimi
 
-Tıbbi araştırmalarda istatistiksel yöntem seçimi için interaktif, çift dilli (TR/EN) bir rehber. Sihirbaz adımlarıyla soruları yanıtlayın, karar haritasını canlı vurgularla izleyin, her testin nasıl çalıştığını sürüklenebilir D3 demolarıyla keşfedin.
+### *Tıbbi araştırmalarda doğru istatistik testini bulmak için interaktif rehber*
 
-Bu sürüm [Quarto](https://quarto.org) ile derlenir; iskelet Quarto'dur, içerik (D3 demoları, sihirbaz, ağaç, i18n) tamamen mevcut JavaScript modülleriyle çalışır.
+[![Site](https://img.shields.io/badge/Site-drmuammer.github.io%2Fistatistik--yontem--sec-B45309?style=for-the-badge)](https://drmuammer.github.io/istatistik-yontem-sec/)
+[![License](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg?style=flat-square)](https://creativecommons.org/licenses/by/4.0/)
+[![Status](https://img.shields.io/badge/Status-Aktif-success?style=flat-square)](https://drmuammer.github.io/istatistik-yontem-sec/)
+[![Lang](https://img.shields.io/badge/Dil-TR%20%2F%20EN-orange?style=flat-square)](https://drmuammer.github.io/istatistik-yontem-sec/)
+[![Built with Quarto](https://img.shields.io/badge/Built_with-Quarto-blue?style=flat-square)](https://quarto.org/)
 
-## Yerelde çalıştırma
+---
 
-Quarto'yu kurun: <https://quarto.org/docs/get-started/>
+## Bu Site Ne İşe Yarar?
 
-```bash
-# Canlı önizleme (dosyalar değişince otomatik yenilenir)
-quarto preview
+Bir araştırmacının önündeki en sık kararlardan biri şudur: *"Verim için hangi istatistik testi uygun?"* Doğru cevap, **veri tipine, grup sayısına, dağılım varsayımlarına ve karşılaştırma türüne** bağlıdır. Bu site bu kararı **birkaç sade soruyla** yanıtlamanı sağlar — ardından önerilen testi sadece adıyla bırakmaz, **nasıl çalıştığını canlı bir demoyla** göstererek sezgi kazandırır.
 
-# Sadece statik build üret
-quarto render
-# çıktı: _site/
-```
+Hedef kitle: tıp, sağlık bilimleri, biyoistatistik öğrencileri ve araştırmacılar. Lisanslı bir biyoistatistikçinin yerini tutmaz, ancak **hangi yönde düşünmeleri gerektiği** konusunda hızlı bir kılavuz sunar.
 
-Quarto kurmadan, mevcut yapıyı statik dosya olarak da test edebilirsiniz — `js/`, `styles/`, `data/` klasörleri orijinal halinde duruyor:
+## 🧭 Nasıl Çalışır?
 
-```bash
-quarto render
-cd _site && python3 -m http.server 8000
-```
+Site üç bileşenden oluşur, hepsi tek sayfada:
 
-## Geliştirme testleri
+**1. Sihirbaz** — Veri tipinden başlar (sürekli mi kategorik mi?), grup yapısını sorar (bağımlı mı bağımsız?), normal dağılım varsayımını kontrol eder. Her adımda kısa bir ipucu ile birlikte 2–3 seçenek sunulur.
 
-```bash
-node tests/state.test.mjs
-node tests/i18n.test.mjs
-node tests/tree.test.mjs
-node tests/tests-content.test.mjs
-node tests/strings.test.mjs
-```
+**2. Karar Haritası** — Tüm karar ağacı tek bakışta görünür. Sihirbazda ilerledikçe ilgili dal canlı olarak vurgulanır, kullanıcı haritadan istediği yere doğrudan tıklayabilir. Karar zincirinin tamamı açıkta — kara kutu yok.
 
-İçerik bütünlük kontrolü: tarayıcıda `tools/check.html`.
-UI smoke: tarayıcıda `tools/uitests.html`.
+**3. İnteraktif Demolar** — Önerilen test sayfasında D3.js tabanlı bir mini simülasyon vardır. Veri noktalarını sürükleyebilir, parametreleri değiştirebilir, test istatistiğinin nasıl tepki verdiğini canlı izleyebilirsiniz. Her test için R, Python ve SPSS kod örnekleri de sayfada hazır.
 
-## Yayın (GitHub Pages)
+Tüm içerik **Türkçe ve İngilizce** olarak iki dilde mevcuttur — sağ üstteki TR/EN düğmesinden anlık geçilir.
 
-İki seçenek var, **birini** seçin:
+## 📚 Kapsanan Testler
 
-### Seçenek 1 — Otomatik (GitHub Actions, önerilen)
+**İki grup karşılaştırma**
+- Student t testi (parametrik, bağımsız)
+- Bağımlı (eşli) t testi (parametrik, bağımlı)
+- Mann-Whitney U testi (non-parametrik, bağımsız)
+- Wilcoxon işaretli sıra testi / İşaret testi (non-parametrik, bağımlı)
 
-Repo'da `.github/workflows/publish.yml` dosyası mevcut. `main` branch'e her push'ta sayfa yeniden derlenir ve `gh-pages` branch'ine deploy edilir.
+**Üç ve daha fazla grup karşılaştırma**
+- Tek yönlü ANOVA (parametrik, bağımsız)
+- Tekrarlı ölçümlerde ANOVA (parametrik, bağımlı)
+- Kruskal-Wallis testi (non-parametrik, bağımsız)
+- Friedman testi (non-parametrik, bağımlı)
 
-İlk kurulum:
+**Kategorik veri**
+- Ki-kare testi (2×2) ve Fisher'ın kesin testi
+- Ki-kare testi (n×m)
+- McNemar testi (eşli kategorik)
 
-1. Repo → **Settings → Pages**
-2. **Source**: `Deploy from a branch`
-3. **Branch**: `gh-pages` / `(root)`
-4. Save
+**İlişki ve korelasyon**
+- Pearson korelasyon analizi (parametrik)
+- Kendall tau-b ve Spearman korelasyonu (non-parametrik)
+- Regresyon analizi
 
-Sonra `main`'e push edin, ~1 dk sonra canlı.
+**Tanımlayıcı**
+- Tablolar ve çubuk/pasta grafikler (kesikli veri)
+- Tanımlayıcı istatistikler ve histogramlar (sürekli veri)
 
-### Seçenek 2 — Manuel publish
+## 🌐 Online Olarak
 
-Yerelde Quarto kurulu ise:
+Doğrudan tarayıcıda açın, hiçbir kurulum gerekmez:
 
-```bash
-quarto publish gh-pages
-```
+**<https://drmuammer.github.io/istatistik-yontem-sec/>**
 
-Komut `gh-pages` branch'ine push eder. Pages ayarı yine `gh-pages` / root olmalı.
+Mobil uyumlu — telefon ve tabletten de çalışır. Karar haritası mobilde açılır pencere olarak görüntülenir.
 
-## Mimari
+## 🎓 Atıf
 
-- **Kabuk**: Quarto (`_quarto.yml`, `index.qmd`)
-- **Body**: `index.qmd` içinde ham HTML bloğu — orijinal SPA yapısı (header, hero, explorer, result, footer) korunmuş
-- **JS**: `js/app.js` ES modül entry; `js/i18n.js`, `js/state.js`, `js/wizard.js`, `js/tree.js`, `js/result.js`, `js/heroAnim.js`, `js/viz/*.js`'i import eder
-- **D3**: `lib/d3.v7.min.js` global olarak yüklü (orijinal yapı korundu)
-- **Stiller**: `styles/main.css`, `wizard.css`, `tree.css`, `result.css` + Quarto wrapper'larını nötralize eden `quarto-overrides.css`
-- **Veri**: `data/tree.json`, `data/strings.json`, `data/tests.json` — `app.js` runtime'da fetch eder
-- **i18n**: `[data-i18n]` attribute'leri + `js/i18n.js`; header'daki `#lang-toggle` butonu dili değiştirir
+İçerik, Dr. Cengizhan Açıkel ve Dr. Selim Kılıç tarafından hazırlanan *"Tıbbi Araştırmalarda İstatistiksel Yöntem Seçimi"* akış şemasından uyarlanmıştır.
 
-## Atıf
+## 📖 Kaynaklar
 
-İçerik, Dr. Cengizhan Açıkel ve Dr. Selim Kılıç tarafından hazırlanan
-"Tıbbi Araştırmalarda İstatistiksel Yöntem Seçimi" akış şemasından uyarlanmıştır.
+1. Sümbüloğlu K., Sümbüloğlu V. — *Biyoistatistik*, 4. Baskı, Özdemir Yayıncılık, Ankara, 1993.
+2. Akgül A. — *Tıbbi Araştırmalarda İstatistiksel Analiz Teknikleri*, 2. Baskı, Emek Ofset, Ankara, 2003.
+3. Dawson B., Trapp R. — *Basic and Clinical Biostatistics*, 3rd ed., Singapore, 2001.
 
-## Kaynaklar
+## 🤝 Katkı
 
-1. Sümbüloğlu K., Sümbüloğlu V.; Biyoistatistik 4. Baskı, Özdemir Yayıncılık, Ankara, 1993.
-2. Akgül A.; Tıbbi Araştırmalarda İstatistiksel Analiz Teknikleri 2. Baskı, Emek Ofset, Ankara, 2003.
-3. Dawson B., Trapp R.; Basic and Clinical Biostatistics, 3rd edition, Singapore, 2001.
+Hata, yanlış öneri, eksik test ya da geliştirme öneriniz varsa [Issue](https://github.com/drmuammer/istatistik-yontem-sec/issues) açın veya [Pull Request](https://github.com/drmuammer/istatistik-yontem-sec/pulls) gönderin. Yeni testlerin eklenmesi `data/tree.json` ve `data/tests.json` dosyalarını düzenlemekle mümkündür.
 
-## Lisans
+## 📜 Lisans
 
-[CC BY 4.0](LICENSE)
+Tüm içerik [**CC BY 4.0**](https://creativecommons.org/licenses/by/4.0/) altında paylaşılmaktadır — atıf vererek serbestçe kullanabilir, paylaşabilir ve uyarlayabilirsiniz.
+
+**Önerilen atıf:**
+
+> Beslen, M. (2026). *İstatistiksel Yöntem Seçimi: Tıbbi araştırmalarda interaktif test seçim rehberi*. <https://drmuammer.github.io/istatistik-yontem-sec/>
+
+## 📫 İletişim
+
+🌐 [muammerbeslen.com](https://muammerbeslen.com)  
+🔐 [Veri Güvenliği Rehberi](https://drmuammer.github.io/veri-seti-guvenligi/)  
+📚 [Diğer notlar](https://github.com/drmuammer/notes)
+
+---
+
+*"Yanlış soruya doğru cevap aramaktan kötüsü, doğru soruya yanlış testle cevap vermektir."*
