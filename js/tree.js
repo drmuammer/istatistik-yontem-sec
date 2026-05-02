@@ -29,6 +29,7 @@ export function renderTree(container, { tree, state, i18n }) {
   function render() {
     const path = state.getPath();
     const active = new Set(path);
+    const lastActiveId = path[path.length - 1];
 
     const root = d3.hierarchy(buildHierarchy('root'));
     d3.tree().nodeSize([195, 115])(root);
@@ -54,17 +55,6 @@ export function renderTree(container, { tree, state, i18n }) {
     `);
 
     const scroll = container.querySelector('.tree-scroll');
-
-    function recenter(smooth = true) {
-      const rootScreenX = offsetX; // root.x === 0, screen X = 0 + offsetX
-      const target = Math.max(0, rootScreenX - scroll.clientWidth / 2);
-      scroll.scrollTo({ left: target, behavior: smooth ? 'smooth' : 'auto' });
-    }
-
-    container.querySelector('.tree-recenter').addEventListener('click', () => recenter(true));
-    // İlk render'da animasyonsuz merkezle (kullanıcı sayfayı açar açmaz root görünsün).
-    requestAnimationFrame(() => recenter(false));
-
     const svg = d3.select(container).select('svg');
 
     svg.selectAll('path.tree-link')
@@ -86,6 +76,7 @@ export function renderTree(container, { tree, state, i18n }) {
         else if (path.length > 1) cls.push('dim');
         return cls.join(' ');
       })
+      .attr('data-node-id', d => d.data.id)
       .attr('transform', d => `translate(${d.x + offsetX}, ${d.y + 40})`)
       .attr('role', 'button')
       .attr('tabindex', 0)
@@ -103,6 +94,34 @@ export function renderTree(container, { tree, state, i18n }) {
     nodes.append('rect').attr('x', -85).attr('y', -18).attr('width', 170).attr('height', 36).attr('rx', 3);
     nodes.append('text').attr('text-anchor', 'middle').attr('dominant-baseline', 'middle').text(d => shortLabel(d.data.id));
     nodes.append('title').text(d => fullLabel(d.data.id));
+
+    // Bir node'u görünür alanın ortasına kaydır.
+    function scrollToNode(id, smooth = true) {
+      const el = svg.node().querySelector(`g[data-node-id='${id}']`);
+      if (!el) return;
+      // Yatayda: tree-scroll'un kendi scroll'u; dikeyde: pencere scroll'u.
+      // SVG ekran koordinatlarını kullanarak mesafeyi hesapla.
+      const rect = el.getBoundingClientRect();
+      const scrollRect = scroll.getBoundingClientRect();
+      const dx = (rect.left + rect.width / 2) - (scrollRect.left + scrollRect.width / 2);
+      scroll.scrollTo({ left: scroll.scrollLeft + dx, behavior: smooth ? 'smooth' : 'auto' });
+
+      // Dikeyde — node sayfa görünümü içinde değilse, ortala.
+      const vh = window.innerHeight;
+      const margin = 80; // üst/alt rezervli alan
+      if (rect.top < margin || rect.bottom > vh - margin) {
+        const targetY = window.scrollY + rect.top - vh / 2 + rect.height / 2;
+        window.scrollTo({ top: targetY, behavior: smooth ? 'smooth' : 'auto' });
+      }
+    }
+
+    container.querySelector('.tree-recenter').addEventListener('click', () => {
+      // Buton: aktif node varsa ona git, yoksa root'a.
+      scrollToNode(lastActiveId !== 'root' ? lastActiveId : 'root', true);
+    });
+
+    // İlk render'da animasyonsuz olarak aktif node'u göster.
+    requestAnimationFrame(() => scrollToNode(lastActiveId, false));
   }
 
   state.subscribe(render);
