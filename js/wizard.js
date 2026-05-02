@@ -13,7 +13,20 @@ export function renderWizard(container, { tree, state, i18n }) {
   function render() {
     const path = state.getPath();
     const node = tree[path[path.length - 1]];
-    if (node.leaf) { container.replaceChildren(); return; }
+
+    // Leaf'te de basit kontroller göster — kullanıcı Geri/Sıfırla ile çıkabilsin.
+    if (node.leaf) {
+      const frag = html`
+        <div class="wizard-controls wizard-controls-leaf">
+          <button class="wizard-back">${i18n.t('wizard.back')}</button>
+          <button class="wizard-reset">${i18n.t('wizard.reset')}</button>
+        </div>
+      `;
+      container.replaceChildren(frag);
+      container.querySelector('.wizard-back').addEventListener('click', () => state.back());
+      container.querySelector('.wizard-reset').addEventListener('click', () => state.reset());
+      return;
+    }
 
     const stepLabel = i18n.t('wizard.step', { current: path.length, total: totalDepth });
     const progress = Math.min(100, ((path.length - 1) / (totalDepth - 1)) * 100);
