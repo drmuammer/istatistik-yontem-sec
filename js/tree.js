@@ -11,17 +11,19 @@ export function renderTree(container, { tree, state, i18n }) {
     return item;
   }
 
-  function shortLabel(id) {
+  function fullLabel(id) {
     const n = tree[id];
     if (id === 'root') return i18n.pick({ tr: 'Başla', en: 'Start' });
-    let raw;
     if (n.leaf) {
       const t = testsCache?.[n.test_id];
-      raw = t ? i18n.pick(t.name) : n.test_id;
-    } else {
-      raw = i18n.pick(n.question);
+      return t ? i18n.pick(t.name) : n.test_id;
     }
-    return raw.length > 16 ? raw.slice(0, 16) + '…' : raw;
+    return i18n.pick(n.question);
+  }
+
+  function shortLabel(id) {
+    const raw = fullLabel(id);
+    return raw.length > 24 ? raw.slice(0, 24) + '…' : raw;
   }
 
   function render() {
@@ -29,13 +31,13 @@ export function renderTree(container, { tree, state, i18n }) {
     const active = new Set(path);
 
     const root = d3.hierarchy(buildHierarchy('root'));
-    d3.tree().nodeSize([105, 115])(root);
+    d3.tree().nodeSize([195, 115])(root);
 
     let minX = Infinity, maxX = -Infinity, maxY = 0;
     root.each(n => { minX = Math.min(minX, n.x); maxX = Math.max(maxX, n.x); maxY = Math.max(maxY, n.y); });
-    const width = (maxX - minX) + 180;
+    const width = (maxX - minX) + 220;
     const height = maxY + 100;
-    const offsetX = -minX + 90;
+    const offsetX = -minX + 110;
 
     container.replaceChildren(html`
       <span class="label">${i18n.t('tree.title')} — ${i18n.t('tree.click_hint')}</span>
@@ -77,9 +79,9 @@ export function renderTree(container, { tree, state, i18n }) {
         }
       });
 
-    nodes.append('rect').attr('x', -50).attr('y', -18).attr('width', 100).attr('height', 36).attr('rx', 3);
+    nodes.append('rect').attr('x', -85).attr('y', -18).attr('width', 170).attr('height', 36).attr('rx', 3);
     nodes.append('text').attr('text-anchor', 'middle').attr('dominant-baseline', 'middle').text(d => shortLabel(d.data.id));
-    nodes.append('title').text(d => shortLabel(d.data.id));
+    nodes.append('title').text(d => fullLabel(d.data.id));
   }
 
   state.subscribe(render);
