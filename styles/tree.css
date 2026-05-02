@@ -1,5 +1,36 @@
-.tree-pane { padding: var(--space-6); border-left: 1px solid var(--rule); position: relative; overflow-x: auto; }
-.tree-pane .label { display: block; margin-bottom: var(--space-3); text-align: center; }
+.tree-pane { padding: var(--space-6); border-left: 1px solid var(--rule); position: relative; }
+
+.tree-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+}
+.tree-toolbar .label { display: block; margin: 0; }
+
+.tree-recenter {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  background: var(--surface);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  color: var(--ink);
+  cursor: pointer;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.tree-recenter:hover { background: var(--ink); color: var(--surface); }
+.tree-recenter > span { font-size: 14px; line-height: 1; }
+
+.tree-scroll { overflow-x: auto; }
 .tree-svg { display: block; margin: 0 auto; height: auto; max-height: none; }
 
 .tree-node rect { fill: var(--surface); stroke: var(--rule); stroke-width: 1; transition: fill 0.2s ease, stroke 0.2s ease; }
