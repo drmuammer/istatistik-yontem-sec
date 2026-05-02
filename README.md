@@ -1,0 +1,1 @@
+# istatistik-yontem-sec
