@@ -39,10 +39,31 @@ export function renderTree(container, { tree, state, i18n }) {
     const height = maxY + 100;
     const offsetX = -minX + 110;
 
+    const recenterLabel = i18n.pick({ tr: 'Başa dön', en: 'Recenter' });
+
     container.replaceChildren(html`
-      <span class="label">${i18n.t('tree.title')} — ${i18n.t('tree.click_hint')}</span>
-      <svg class="tree-svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"></svg>
+      <div class="tree-toolbar">
+        <span class="label">${i18n.t('tree.title')} — ${i18n.t('tree.click_hint')}</span>
+        <button class="tree-recenter" type="button" title="${recenterLabel}" aria-label="${recenterLabel}">
+          <span aria-hidden="true">↺</span> ${recenterLabel}
+        </button>
+      </div>
+      <div class="tree-scroll">
+        <svg class="tree-svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"></svg>
+      </div>
     `);
+
+    const scroll = container.querySelector('.tree-scroll');
+
+    function recenter(smooth = true) {
+      const rootScreenX = offsetX; // root.x === 0, screen X = 0 + offsetX
+      const target = Math.max(0, rootScreenX - scroll.clientWidth / 2);
+      scroll.scrollTo({ left: target, behavior: smooth ? 'smooth' : 'auto' });
+    }
+
+    container.querySelector('.tree-recenter').addEventListener('click', () => recenter(true));
+    // İlk render'da animasyonsuz merkezle (kullanıcı sayfayı açar açmaz root görünsün).
+    requestAnimationFrame(() => recenter(false));
 
     const svg = d3.select(container).select('svg');
 
