@@ -4,6 +4,11 @@ export async function renderResult(container, { tree, state, i18n }) {
   const tests = await fetch('data/tests.json').then(r => r.json());
   let active = null;
 
+  function restart() {
+    state.reset();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   async function render() {
     const path = state.getPath();
     const node = state.getCurrentNode();
@@ -20,8 +25,15 @@ export async function renderResult(container, { tree, state, i18n }) {
       return;
     }
 
+    const restartLabel = i18n.pick({ tr: 'Yeniden başla', en: 'Start over' });
+
     container.replaceChildren(html`
-      <h2 class="result-name">${i18n.pick(t.name)}</h2>
+      <div class="result-header">
+        <h2 class="result-name">${i18n.pick(t.name)}</h2>
+        <button class="result-restart" type="button" aria-label="${restartLabel}">
+          <span aria-hidden="true">↺</span> ${restartLabel}
+        </button>
+      </div>
       <p class="result-summary">${i18n.pick(t.summary)}</p>
       <div class="result-grid">
         <div>
@@ -53,7 +65,17 @@ export async function renderResult(container, { tree, state, i18n }) {
         <h4>${i18n.t('result.references')}</h4>
         <ul class="ref-list"></ul>
       </div>
+      <div class="result-footer">
+        <button class="result-restart result-restart-bottom" type="button" aria-label="${restartLabel}">
+          <span aria-hidden="true">↺</span> ${restartLabel}
+        </button>
+      </div>
     `);
+
+    // Üst ve alt "Yeniden başla" butonlarına aynı handler.
+    container.querySelectorAll('.result-restart').forEach(btn => {
+      btn.addEventListener('click', restart);
+    });
 
     const ulA = container.querySelector('.result-assumptions');
     const list = i18n.getLang() === 'tr' ? t.assumptions.tr : t.assumptions.en;
